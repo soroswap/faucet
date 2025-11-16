@@ -38,6 +38,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [mintingToken, setMintingToken] = useState<string | null>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [copiedContract, setCopiedContract] = useState<string | null>(null);
 
   useEffect(() => {
     const testnet = (tokensJson as NetworkTokens[]).find(n => n.network === 'testnet');
@@ -69,6 +70,22 @@ function App() {
     } finally {
       setMintingToken(null);
     }
+  };
+
+  const handleCopyAddress = async (contract: string): Promise<void> => {
+    try {
+      await navigator.clipboard.writeText(contract);
+      setCopiedContract(contract);
+      setTimeout(() => setCopiedContract(null), 2000);
+    } catch (error) {
+      console.error('Failed to copy address:', error);
+      setMessage({ type: 'error', text: 'Failed to copy address' });
+    }
+  };
+
+  const truncateAddress = (address: string): string => {
+    if (address.length <= 12) return address;
+    return `${address.slice(0, 6)}...${address.slice(-6)}`;
   };
 
   return (
@@ -111,6 +128,13 @@ function App() {
                     <div className="token-details">
                       <div className="token-code">{token.code}</div>
                       <div className="token-name">{token.name}</div>
+                      <button
+                        onClick={() => handleCopyAddress(token.contract)}
+                        className="contract-address"
+                        title={token.contract}
+                      >
+                        {copiedContract === token.contract ? '✓ Copied!' : truncateAddress(token.contract)}
+                      </button>
                     </div>
                   </div>
                   <button

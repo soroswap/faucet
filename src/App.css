@@ -183,6 +183,31 @@ body {
   margin-top: 0.25rem;
 }
 
+.contract-address {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  font-family: monospace;
+  color: var(--primary-purple);
+  background-color: rgba(136, 102, 221, 0.1);
+  border: 1px solid rgba(136, 102, 221, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.contract-address:hover {
+  background-color: rgba(136, 102, 221, 0.2);
+  border-color: var(--primary-purple);
+  transform: translateY(-1px);
+}
+
+.contract-address:active {
+  transform: translateY(0);
+}
+
 .mint-button {
   background-color: var(--primary-purple);
   color: white;
